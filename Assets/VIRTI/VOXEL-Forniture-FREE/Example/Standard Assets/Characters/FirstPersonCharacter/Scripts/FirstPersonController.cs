@@ -135,10 +135,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
 
 			if (m_Crouch) {
-				transform.localScale = new Vector3(1, 0.5f, 1);
+				m_CharacterController.height = 0.5f;
 				m_JumpSpeed = 5;
 			} else {
-				transform.localScale = new Vector3(1, 1, 1);
+				m_CharacterController.height = 1.8f;
 				m_JumpSpeed = 10;
 			}
 

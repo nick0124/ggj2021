@@ -364,7 +364,7 @@ MonoBehaviour:
   handsJoint: {fileID: 611086635}
   hitTransform: {fileID: 0}
   hitRb: {fileID: 0}
-  grabDistance: 1
+  grabDistance: 2
 --- !u!1 &1424139636
 GameObject:
   m_ObjectHideFlags: 0
