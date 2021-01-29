@@ -30,6 +30,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private Camera m_Camera;
         private bool m_Jump;
+		private bool m_Crouch;
         private float m_YRotation;
         private Vector2 m_Input;
         private Vector3 m_MoveDir = Vector3.zero;
@@ -67,6 +68,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
             }
+
+			if (Input.GetKey(KeyCode.LeftControl)) {
+				m_Crouch = true;
+			} else {
+				m_Crouch = false;
+			}
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
             {
@@ -126,6 +133,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_MoveDir += Physics.gravity*m_GravityMultiplier*Time.fixedDeltaTime;
             }
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
+
+			if (m_Crouch) {
+				transform.localScale = new Vector3(1, 0.5f, 1);
+				m_JumpSpeed = 5;
+			} else {
+				transform.localScale = new Vector3(1, 1, 1);
+				m_JumpSpeed = 10;
+			}
 
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
