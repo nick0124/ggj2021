@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hands : MonoBehaviour {
+	public LayerMask layerMask;
 	public Transform cam;
 	public Transform hands;
 	public FixedJoint handsJoint;
@@ -20,7 +21,7 @@ public class Hands : MonoBehaviour {
 	void Update() {
 		if (Input.GetMouseButtonDown(0)) {
 			Debug.Log("grab");
-			if(hitRb != null) {
+			if (hitRb != null) {
 				handsJoint.connectedBody = hitRb;
 			}
 		}
@@ -34,7 +35,7 @@ public class Hands : MonoBehaviour {
 		if (Input.GetMouseButtonUp(1)) {
 			Debug.Log("throw");
 			if (handsJoint.connectedBody != null) {
-				handsJoint.connectedBody.GetComponent<Rigidbody>().AddForce(cam.forward*10, ForceMode.Impulse);
+				handsJoint.connectedBody.GetComponent<Rigidbody>().AddForce(cam.forward * 10, ForceMode.Impulse);
 			}
 			handsJoint.connectedBody = null;
 		}
@@ -43,10 +44,10 @@ public class Hands : MonoBehaviour {
 	void FixedUpdate() {
 		hands.transform.localPosition = new Vector3(0, 0, 1);
 
-		Debug.DrawRay(cam.position, cam.forward, Color.green);
+		Debug.DrawRay(hands.position, hands.forward, Color.green);
 
 		RaycastHit hit;
-		Ray ray = new Ray(cam.position, cam.forward);
+		Ray ray = new Ray(hands.position, hands.forward);
 
 		if (Physics.Raycast(ray, out hit)) {
 			if (hit.distance < grabDistance) {
