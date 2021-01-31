@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Hands : MonoBehaviour {
 	public Image[] progress;
@@ -108,6 +109,7 @@ public class Hands : MonoBehaviour {
 
 		if(money == 5) {
 			Debug.Log("finish");
+			SceneManager.LoadScene("end");
 		}
 	}
 }
