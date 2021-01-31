@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Hands : MonoBehaviour {
-	public LayerMask layerMask;
+	public Image[] progress;
 	public Transform cam;
 	public Transform hands;
 	public FixedJoint handsJoint;
@@ -12,6 +13,8 @@ public class Hands : MonoBehaviour {
 
 	public float grabDistance;
 
+	public int money;
+
 	// Start is called before the first frame update
 	void Start() {
 		
@@ -19,10 +22,17 @@ public class Hands : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		this.UpdateScore();
 		if (Input.GetMouseButtonDown(0)) {
 			Debug.Log("grab");
 			if (hitRb != null) {
 				handsJoint.connectedBody = hitRb;
+				if(hitRb.gameObject.layer == 7) {
+					Debug.Log("collect");
+					money++;
+					handsJoint.connectedBody = null;
+					GameObject.Destroy(hitRb.gameObject);
+				}
 			}
 		}
 		if (Input.GetMouseButtonUp(0)) {
@@ -81,5 +91,23 @@ public class Hands : MonoBehaviour {
 
 	private void OnTriggerExit(Collider other) {
 		Debug.Log(other.transform.name);
+	}
+
+	private void UpdateScore() {
+		for (int i = 0; i < progress.Length; i++) {
+			if (i + 1 <= money) {
+				var tempColor = progress[i].color;
+				tempColor.a = 1f;
+				progress[i].color = tempColor;
+			} else {
+				var tempColor = progress[i].color;
+				tempColor.a = 0.3f;
+				progress[i].color = tempColor;
+			}
+		}
+
+		if(money == 5) {
+			Debug.Log("finish");
+		}
 	}
 }
